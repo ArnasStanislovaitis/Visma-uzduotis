@@ -17,3 +17,4 @@ C:\Users\Arnas\Documents\GitHub\Visma-uzduotis\VismaTask\VismaTask\bin\Debug\net
 C:\Users\Arnas\Documents\GitHub\Visma-uzduotis\VismaTask\VismaTask\bin\Debug\net6.0\Newtonsoft.Json.dll
 C:\Users\Arnas\Documents\GitHub\Visma-uzduotis\VismaTask\VismaTask\bin\Debug\net6.0\System.IO.Packaging.dll
 C:\Users\Arnas\Documents\GitHub\Visma-uzduotis\VismaTask\VismaTask\obj\Debug\net6.0\VismaTask.csproj.CopyComplete
+C:\Users\Arnas\Documents\GitHub\Visma-uzduotis\VismaTask\VismaTask\bin\Debug\net6.0\BCrypt.Net-Next.dll

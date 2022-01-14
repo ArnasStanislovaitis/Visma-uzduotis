@@ -5,48 +5,84 @@ bool exit = false;
 int selection = 0;
 
 DB.Load();
+DB.LoadUsers();
+
+var variants = new string[]
+{
+    "Create a  new meeting",
+    "Delete the meeting",
+    "Add a new person to the meeting",
+    "Remove a person from the meeting",
+    "View all meetings",
+    "Exit"
+};
+var loginVariants = new string[]
+{
+    "Login",
+    "Sign up",   
+    
+};
+
+/*
+var actions = new Action[]
+{
+    () =>MeetingController.Create(),
+    () => MeetingController.Delete(),
+    () => MeetingController.AddPerson(),
+    () => MeetingController.RemovePerson(),
+    () => MeetingController.GetAll(),
+    () => {Console.Clear(); exit = true; }  
+};
+while (!exit)
+{
+    UI_Helper.UniversalSelectPrompt(selections, actions);
+}*/
+
+selection = UI_Helper.AskForSelection(loginVariants);
+
+if (selection == 0)
+{
+   Console.Clear();
+   MeetingController.Login();
+}
+if (selection == 1)
+{
+    Console.Clear();
+    MeetingController.Register();
+}
+
+
+
+
 
 while (exit!=true)
 {
-    Console.WriteLine("Commands:");
-    Console.WriteLine("1 - Create a  new meeting");
-    Console.WriteLine("2 - Delete the meeting");
-    Console.WriteLine("3 - Add a new person to the meeting");
-    Console.WriteLine("4 - Remove a person from the meeting");
-    Console.WriteLine("5 - View all meetings");
-    Console.WriteLine("6 - Exit");
+    selection = UI_Helper.AskForSelection(variants);      
 
-    if(!int.TryParse(Console.ReadLine(), out selection) || selection > 6 || selection < 1)
-    {
-        Console.Clear();
-        Console.WriteLine("Netinkamai ivestas pasirinkimas.");
-        continue;
-    }
-
-    if(selection == 1)
+    if(selection == 0)
     {
         MeetingController.Create();
-
     }
-    if (selection ==2)
+    if (selection ==1)
     {
         MeetingController.Delete();
     }
-    if (selection == 3)
+    if (selection == 2)
     {
         MeetingController.AddPerson();
     }
-    if (selection == 4)
+    if (selection == 3)
     {
         MeetingController.RemovePerson();
     }
-    if (selection == 5)
+    if (selection == 4)
     {
         MeetingController.GetAll();
     }
-    if (selection == 6)
+    if (selection == 5)
     {
         Console.Clear();
-        exit = true;
-    }
+        exit = true;    }    
+
 }
+

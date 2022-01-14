@@ -10,25 +10,41 @@ namespace VismaTask
 {
     public static class DB
     {
-        const string File_Name = "duomenys.json";
-       public static List<Meeting> Meetings = new List<Meeting>();
+        const string Data_File_Name = "duomenys.json";
+        const string User_File_Name = "users.json";
 
+       public static List<Meeting> Meetings = new List<Meeting>();
+        public static List<User> Users = new List<User>();
+        public static User CurrentUser = null;
+
+        public static void SaveUsers()
+        {
+            var textData = JsonConvert.SerializeObject(Users);
+            File.WriteAllText(User_File_Name, textData);
+        }
+        public static void LoadUsers()
+        {
+            if (File.Exists(User_File_Name))
+            {
+                var textDataFromFile = File.ReadAllText(User_File_Name);
+                var objectData = JsonConvert.DeserializeObject<List<User>>(textDataFromFile);
+                Users = objectData;
+            }
+        }
         public static void SaveChanges()
         {
             var textData = JsonConvert.SerializeObject(Meetings);
-            File.WriteAllText(File_Name, textData);
+            File.WriteAllText(Data_File_Name, textData);
         }
         public static void Load()
         {
-            if (File.Exists(File_Name))
+            if (File.Exists(Data_File_Name))
             {
-                var textDataFromFile = File.ReadAllText(File_Name);
+                var textDataFromFile = File.ReadAllText(Data_File_Name);
                 var objectData = JsonConvert.DeserializeObject<List<Meeting>>(textDataFromFile);
                 Meetings = objectData;
-            }            
-
+            }
         }
-
 
     }
 }
