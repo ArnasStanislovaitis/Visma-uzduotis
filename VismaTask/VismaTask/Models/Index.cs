@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace VismaTask
 {
-    public class User
+    public class Index
     {
-        public string Name { get; set; } 
-        public string Password { get; set; }    
+        public int NextMeetingId { get; set; } = 0;
+        public int NextUserId { get; set; }= 0;
     }
 }

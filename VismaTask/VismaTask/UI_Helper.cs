@@ -8,13 +8,14 @@ namespace VismaTask
 {
     public static class UI_Helper
     {
-        public static int AskForSelection(string[] variants)
+        public static int AskForSelection(string[] variants, string question)
         {
+            Console.Clear();
             bool exit = false;
             int selection = 0;
             while (!exit)
             {
-                Console.WriteLine("Choices :");
+                Console.WriteLine(question);
                 for (int i = 0; i < variants.Length; i++)
                 {
                     Console.WriteLine("{0} - {1}", i, variants[i]);
@@ -32,6 +33,7 @@ namespace VismaTask
         }
        public static string AskForString(string question)
        {
+            Console.Clear();
             string rez = "";
             bool exit = false;
 
@@ -53,7 +55,42 @@ namespace VismaTask
             return rez;
                 
        }
+        public static int AskForUserId(string question)
+        {
+            Console.Clear();
+            var users = DB.Users.Select(x => x.Name).ToArray();                           
+            var selection = AskForSelection(users,question);
+            var selectedUserName =users[selection];
+            var userId = DB.Users.Where(x => x.Name == selectedUserName).Select(x => x.Id).FirstOrDefault();
+            return userId;
+        }
 
+        public static DateTime AskForDate(string question)
+        {
+            Console.Clear();
+            DateTime rez = DateTime.Now;
+            bool exit = false;
+
+            while (!exit)
+            {
+                Console.WriteLine(question);
+                var input = Console.ReadLine();
+                if (!DateTime.TryParse(input,out rez))
+                {
+                    Console.Clear();
+                    Console.WriteLine("Netinkamai ivesta reiksme.");
+                    continue;
+                }
+                exit = true;
+                
+
+            }
+
+            return rez;
+
+        }
+
+        
             
 	    
 

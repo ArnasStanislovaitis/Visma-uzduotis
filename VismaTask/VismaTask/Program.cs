@@ -6,6 +6,7 @@ int selection = 0;
 
 DB.Load();
 DB.LoadUsers();
+DB.LoadIndex();
 
 var variants = new string[]
 {
@@ -38,7 +39,7 @@ while (!exit)
     UI_Helper.UniversalSelectPrompt(selections, actions);
 }*/
 
-selection = UI_Helper.AskForSelection(loginVariants);
+selection = UI_Helper.AskForSelection(loginVariants,"Choices");
 
 if (selection == 0)
 {
@@ -57,7 +58,7 @@ if (selection == 1)
 
 while (exit!=true)
 {
-    selection = UI_Helper.AskForSelection(variants);      
+    selection = UI_Helper.AskForSelection(variants, "Actions :");      
 
     if(selection == 0)
     {
