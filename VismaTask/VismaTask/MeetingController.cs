@@ -84,6 +84,7 @@ namespace VismaTask
             Console.WriteLine("Creating meeting...");
             var meeting = new Meeting()
             {
+                Id = DB.Index.NextMeetingId++,
                 Name = UI_Helper.AskForString("Enter the name of the meeting"),
                 ResponsiblePersonId = DB.CurrentUser.Id,
                 Description = UI_Helper.AskForString("Enter the description"),
@@ -103,17 +104,95 @@ namespace VismaTask
         public static void Delete()
         {
             Console.Clear();
-            Console.WriteLine( "Deleting meeting...");
+            var variant = DB.Meetings.Select(x => x.Name).ToArray();
+            var selection = UI_Helper.AskForSelection(variant,"Choose a meeting you want to delete :");
+            var meeting = DB.Meetings[selection];
+            if (meeting.ResponsiblePersonId == DB.CurrentUser.Id)
+            {
+                DB.Meetings.Remove(meeting);
+                DB.SaveChanges();
+                Console.Clear();
+                Console.WriteLine("Meeting {0} deleted",meeting.Name);
+                Console.ReadKey();
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Meeting {0} cannot be deleted. You don't have access",meeting.Name);
+                Console.ReadKey();
+
+            }
+
         }
         public static void AddPerson()
         {
             Console.Clear();
-            Console.WriteLine("Adding a new person to the meeting");
+            var meetingVariants = DB.Meetings.Select(x => x.Name).ToArray();
+            var meetingSelection = UI_Helper.AskForSelection(meetingVariants, "Choose a meeting:");
+            var meeting= DB.Meetings[meetingSelection];
+            
+            var userVariants = DB.Users.Select(x => x.Name).ToArray();
+            var userSelection = UI_Helper.AskForSelection(userVariants, "Choose a person to add to the meeting:");
+            var user = DB.Users[userSelection];
+
+            var intersects = DB.Meetings.Where(x => x.People.Contains(user) && meeting.Between(x.StartDate,x.EndDate)).ToList();
+
+            if (!meeting.People.Contains(user))
+            {   Console.Clear();
+                var key = ConsoleKey.Y;
+
+                if (intersects.Count > 0)
+                {                    
+                    foreach(var item in intersects)
+                    {
+                        Console.WriteLine("This meeting collides with the meeting {0}",item.Name);
+                    }
+                    Console.WriteLine("Do you want to continue? Y/N");
+                    key = Console.ReadKey().Key;                   
+                }
+                if(key == ConsoleKey.Y)
+                {
+                    meeting.People.Add(user);
+                    Console.Clear();
+                    Console.WriteLine("Add {0} to the meeting {1} at {2}",user.Name,meeting.Name,meeting.StartDate);
+                    Console.ReadKey();
+                }
+
+
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Person {0} is already in the meeting {1}",user.Name,meeting.Name);
+                Console.ReadKey();
+            }
+            
+
         }
         public static void RemovePerson()
         {
-            Console.Clear();
-            Console.WriteLine("Removing a person from the meeting");
+            var meetingVariants = DB.Meetings.Select(x => x.Name).ToArray();
+            var meetingSelection = UI_Helper.AskForSelection(meetingVariants, "Choose a meeting:");
+            var meeting = DB.Meetings[meetingSelection];
+
+            var userVariants = DB.Users.Select(x => x.Name).ToArray();
+            var userSelection = UI_Helper.AskForSelection(userVariants, "Choose a person to add to the meeting:");
+            var user = meeting.People[userSelection];
+
+            if(meeting.ResponsiblePersonId != user.Id)
+            {
+                meeting.People.Remove(user);
+                DB.SaveChanges();
+                Console.WriteLine("User {0} has been removed from the meeting {1}",user.Name,meeting.Name);
+                Console.ReadKey();
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Cannot remove the meeting creator");
+                Console.ReadKey();
+            }
+
         }
         public static void GetAll()
         {
@@ -165,6 +244,13 @@ namespace VismaTask
                     }
                 }
             }
+        }
+        
+        public static bool Between(this Meeting current, DateTime start, DateTime end)
+        {
+            bool startCheck = start <= current.StartDate && current.StartDate <= end;
+            bool endCheck = start <= current.EndDate && current.EndDate <= end;
+            return startCheck || endCheck;
         }
 
     }

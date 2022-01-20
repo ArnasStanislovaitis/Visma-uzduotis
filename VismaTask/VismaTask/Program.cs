@@ -58,7 +58,7 @@ if (selection == 1)
 
 while (exit!=true)
 {
-    selection = UI_Helper.AskForSelection(variants, "Actions :");      
+    selection = UI_Helper.AskForSelection(variants,"Actions :");      
 
     if(selection == 0)
     {
