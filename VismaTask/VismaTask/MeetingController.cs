@@ -203,12 +203,12 @@ namespace VismaTask
             {
                 Console.Clear();
                 Console.WriteLine("Showing all the meetings");
-                Console.WriteLine("Esc-escape");
+                Console.WriteLine("X-escape");
                 Console.WriteLine("f - filter");
                 Console.WriteLine("Showing all meetings...");
                 DB.Meetings.ForEach(x => Console.WriteLine(x));
                 var key = Console.ReadKey();
-                if (key.Key == ConsoleKey.Escape) exit = true;
+                if (key.Key == ConsoleKey.X) exit = true;
                 if (key.Key == ConsoleKey.F)
                 {
                     var selection = UI_Helper.AskForSelection(FILTER_VARIANTS, "Choose filter :");
