@@ -24,7 +24,7 @@ namespace VismaTask
                 if (!int.TryParse(Console.ReadLine(), out selection) || selection > variants.Length-1 || selection < 0)
                 {
                     Console.Clear();
-                    Console.WriteLine("Netinkamai ivestas pasirinkimas.");
+                    Console.WriteLine("Incorrect input.");
                     continue;
                 }
                 exit = true;
@@ -44,7 +44,7 @@ namespace VismaTask
                 if(input == null)
                 {
                     Console.Clear();
-                    Console.WriteLine("Netinkamai ivesta reiksme.");
+                    Console.WriteLine("Incorrect input.");
                     continue;
                 }
                 exit = true;
@@ -78,7 +78,7 @@ namespace VismaTask
                 if (!DateTime.TryParse(input,out rez))
                 {
                     Console.Clear();
-                    Console.WriteLine("Netinkamai ivesta reiksme.");
+                    Console.WriteLine("Incorrect input");
                     continue;
                 }
                 exit = true;

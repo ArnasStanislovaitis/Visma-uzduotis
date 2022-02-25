@@ -200,13 +200,13 @@ namespace VismaTask
             var screen = DB.Meetings;
             bool exit = false;
             while (!exit)
-            {
+            {   
                 Console.Clear();
                 Console.WriteLine("Showing all the meetings");
                 Console.WriteLine("X-escape");
                 Console.WriteLine("f - filter");
                 Console.WriteLine("Showing all meetings...");
-                DB.Meetings.ForEach(x => Console.WriteLine(x));
+                screen.ForEach(x => Console.WriteLine(x));
                 var key = Console.ReadKey();
                 if (key.Key == ConsoleKey.X) exit = true;
                 if (key.Key == ConsoleKey.F)
@@ -241,7 +241,7 @@ namespace VismaTask
                         {
                             screen = screen.Where(x => x.People.Count > count).ToList();
                         }
-                    }
+                    }                    
                 }
             }
         }
